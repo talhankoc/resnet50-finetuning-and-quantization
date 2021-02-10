@@ -31,7 +31,8 @@ files are `Test Images.txt` and `Train Images.txt` under the `data/` dir.
 
 These are the results after 20 epochs of training.
 
-![Training & Validation Accuracy](assets/Train_and_validation_accuracy.png)
+<img src="assets/Train_and_validation_accuracy.png" alt="Training & Validation Accuracy" width="200"/>
+
 ![Training & Validation Loss](assets/Train_and_validation_loss.png)
 
 The validation accuracy nearly plateaued around `55%`, whereas training accuracy 
