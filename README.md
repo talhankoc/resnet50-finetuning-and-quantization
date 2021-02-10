@@ -60,7 +60,14 @@ For this task, I fine-tuned a quantizeable implementation of Resnet-50 from PyTo
 I implemented the logic to prepare the dataset in the `indoor_dataset.py` file, which 
 contains the IndoorDataset class, a subclass of ‘torch.utils.data.Dataset’. The training 
 and validation split is provided by the maintainers of the MIT Indoor-67 dataset. The 
-files are `Test Images.txt` and `Train Images.txt` under the `data/` dir. 
+files are `Test Images.txt` and `Train Images.txt` under the `data/` dir. These files are
+line delimited and structured as - `image_label/image_name.jpg`, thus corresponding to both
+an individual sample's *label* and it's path to the raw image. 
+
+In order to replicate fine-tuning, make sure you have your data setup, and run
+
+    python train_resnet.py
+
 
 These are the results after training for 20 epochs on a 5k sample of images from the dataset.
 
@@ -92,17 +99,24 @@ and removed the hardcoded variable so that I could pass in a sample from my prep
 better example to calibrate with. This worked, and the model quantized successfully. The drop in validation 
 accuracy was less than `1%` (or `0.52%` to be exact).
 
-As for inference speed, we see about a 4x speed up with the quantized model. The reason is attributable 
-to the 4x decrease in memory footprint at each layer of the model. With quantization, 
+To replicate this, run:
+
+    python evaluate.py
+
+In terms of inference speed, we see about a 4x speed up with the quantized model. The reason 
+is attributable to the 4x decrease in memory footprint at each layer of the model. With quantization, 
 the model parameters are converted from float32 to int8, which has 1/4th the number of 
 bits. Having 4x less memory means the network load is reduced by 4x. This should be the main
 source of performance gain.
 
-I considered if int8 matrix multiplications would faster as well. However, I don't 
-think this is the case. On my local hardware, the compute time of the matrix multiplication 
-should not improve by downcasting float32 to int8 since the underlying hardware probably 
+I considered if int8 matrix multiplications could also play a role in the speedup. However, I don't 
+think this is the case. On my local cpu, the compute time of the matrix multiplication 
+should not improve by downcasting float32 to int8 since the underlying hardware 
 does not support specialized 8-bit operations. So the compute time should be approximately 
-the same as if the model was float32.
+the same as if the model was float32. 
+
+Bottom line, the reduced memory footprint of the quantized model results in 4x less network 
+throughput between the memory and the CPU.  
 
 
 *Note*: 
