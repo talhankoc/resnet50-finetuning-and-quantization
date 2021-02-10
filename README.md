@@ -26,12 +26,10 @@ Link to site: http://web.mit.edu/torralba/www/indoor.html
 Link to download tar file (2.4GB): http://groups.csail.mit.edu/vision/LabelMe/NewImages/indoorCVPR_09.tar
 
 #### Fine-tuned model weights
-The fine-tuned model weights are provided for convenience so that you don't have to train it. 
-With that, you should be able to run `evalaute.py` to compared the accuracy and speed of the 
+The fine-tuned model weights are provided for your convenience so that you don't have to train the model form scratch.
+With that, you should be able to run `evalaute.py` to compare the accuracy and speed of the model before and after it's
+quantized.
 
-
-
-These are the results after fine-tuning for 20 epochs on just a 5k sample of data.
 
 # Analysis
 
@@ -64,7 +62,7 @@ contains the IndoorDataset class, a subclass of ‘torch.utils.data.Dataset’. 
 and validation split is provided by the maintainers of the MIT Indoor-67 dataset. The 
 files are `Test Images.txt` and `Train Images.txt` under the `data/` dir. 
 
-These are the results after 20 epochs of training.
+These are the results after training for 20 epochs on a 5k sample of images from the dataset.
 
 ![Training & Validation Accuracy](assets/Train_and_validation_accuracy.png)
 ![Training & Validation Loss](assets/Train_and_validation_loss.png)
